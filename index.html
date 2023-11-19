@@ -23,16 +23,96 @@
 			max-width: 100%;
 			max-height: 100%;
 		}
+
+		.floating-button-div {
+		position: fixed;
+		top: 20px;
+		right: 20px;
+		z-index: 1000;
+		}
+
+		.fb {
+		background-color: white;
+		/* color: white; */
+		border: none;
+		border-radius: 50%;
+		padding: 10px;
+		font-size: 16px;
+		cursor: pointer;
+		box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+		}
 	</style>
 
 	
 </head>
 <body>
 
-
+	<div id="lang" class="floating-button-div">
+		<button id="lang_icon" class="fb">🌐</button>
+	</div>
 
 <div id="map"></div>
 <script>
+
+	const DEFAULT_LANG = "ES"
+	let lang_interface = DEFAULT_LANG
+
+	lang.addEventListener("click", function() {
+
+		// Cambiar a idioma inglés.
+		if (lang_interface === "ES") {
+			lang_interface = "EN"
+			lang_icon.innerText = lang_interface
+			popup.setContent('🇬🇧 English version.').openOn(map);
+			marker.bindPopup('<b>' + array_places['brande'].lang['en'].title + '</b><br />' + array_places['brande'].lang['en'].subtitle)
+			circle.bindPopup(array_places['angel'].lang['en'].subtitle)
+		} else {
+			lang_interface = "ES"
+			lang_icon.innerText = lang_interface
+			popup.setContent('🇪🇸 Version en Español.').openOn(map);
+			marker.bindPopup('<b>' + array_places['brande'].lang['es'].title + '</b><br />' + array_places['brande'].lang['es'].subtitle)
+			circle.bindPopup(array_places['angel'].lang['es'].subtitle)
+		}
+	});
+
+	const array_places = {
+		"":{
+			"lang": {
+				"es": {
+					"title": "",
+					"subtitle": ""
+				},
+				"en": {
+					"title": "",
+					"subtitle": ""
+				}
+			}
+		},
+		"angel":{
+			"lang": {
+				"es": {
+					"title": "",
+					"subtitle": "Columna de la victoria."
+				},
+				"en": {
+					"title": "",
+					"subtitle": "Victory Column (Siegessäule)"
+				}
+			}
+		},
+		"brande":{
+			"lang": {
+				"es": {
+					"title": "Puerta de Brandenburgo",
+					"subtitle": "Monumento neoclásico del siglo xviii."
+				},
+				"en": {
+					"title": "Brandenburg Gate",
+					"subtitle": "Neoclassical monument of the 18th century."
+				}
+			}
+		},
+	};
 
 	const map = L.map('map').setView([52.515, 13.30], 15);
 
